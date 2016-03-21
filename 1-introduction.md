@@ -47,3 +47,6 @@ must find something to put in its place — something that not only explains the
 power of functional programming but also gives a clear indication of what the
 functional programmer should strive towards.
 
+#Введение
+
+Данная книга - попытка показать смысл функционального программирования широкому сообществу программистов (которые не пишут в такой парадигме или не используют функциональный подход), а также, помочь программистам, которые используют функциональное программирование как основной инструмент разработки, ясно понять какие возможности предоставляет данный подход.
