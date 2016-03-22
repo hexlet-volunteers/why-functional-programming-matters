@@ -7,10 +7,10 @@ to help functional programmers exploit its advantages to the full by making it
 clear what those advantages are.
 Данная статья - попытка показать смысл функционального программирования широкому сообществу программистов (которые не используют функциональный подход), а также, помочь программистам, которые используют функциональное программирование как основной инструмент разработки, ясно понять какие возможности предоставляет данный подход.
 Functional programming is so called because its fundamental operation is
-the application of functions to arguments. Функциональное программирование называется так, потому что его фундаментальная операция есть применение функции к аргументам. 
+the application of functions to arguments. Функциональное программирование называется так, потому что состоит в применении функции к аргументам.
 A main program itself is written as
 a function that receives the program’s input as its argument and delivers the
-program’s output as its result. Основная программа - это функция которая принимает входные данные в качестве аргумента и передается как результат на выходе программы.
+program’s output as its result. Основная программа это -  функция которая принимает входные данные в качестве аргумента и передается как результат на выходе программы.
 
 Typically the main function is defined in terms of
 other functions, which in turn are defined in terms of still more functions, until
