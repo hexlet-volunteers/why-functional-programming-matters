@@ -1,12 +1,18 @@
 #Introduction
+#Введение
+
 
 This paper is an attempt to demonstrate to the larger community of (nonfunctional) programmers the significance of functional programming, and also
 to help functional programmers exploit its advantages to the full by making it
 clear what those advantages are.
+Данная книга - попытка показать смысл функционального программирования широкому сообществу программистов (которые не пишут в такой парадигме или не используют функциональный подход), а также, помочь программистам, которые используют функциональное программирование как основной инструмент разработки, ясно понять какие возможности предоставляет данный подход.
 Functional programming is so called because its fundamental operation is
-the application of functions to arguments. A main program itself is written as
+the application of functions to arguments. Функциональное программирование называется таковым, потому что его фундаментальная операция есть применение функции к аргументам. 
+A main program itself is written as
 a function that receives the program’s input as its argument and delivers the
-program’s output as its result. Typically the main function is defined in terms of
+program’s output as its result. Основная программа сама по себе написана как функция которая принимает входные данные в качестве аргумента и передается как результат на выходе программы.
+
+Typically the main function is defined in terms of
 other functions, which in turn are defined in terms of still more functions, until
 at the bottom level the functions are language primitives. All of these functions
 are much like ordinary mathematical functions, and in this paper they will be
@@ -46,7 +52,3 @@ Clearly this characterization of functional programming is inadequate. We
 must find something to put in its place — something that not only explains the
 power of functional programming but also gives a clear indication of what the
 functional programmer should strive towards.
-
-#Введение
-
-Данная книга - попытка показать смысл функционального программирования широкому сообществу программистов (которые не пишут в такой парадигме или не используют функциональный подход), а также, помочь программистам, которые используют функциональное программирование как основной инструмент разработки, ясно понять какие возможности предоставляет данный подход.
