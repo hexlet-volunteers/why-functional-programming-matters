@@ -10,7 +10,7 @@ Functional programming is so called because its fundamental operation is
 the application of functions to arguments. Функциональное программирование называется так, потому что состоит в применении функции к аргументам.
 A main program itself is written as
 a function that receives the program’s input as its argument and delivers the
-program’s output as its result. Основная программа это -  функция которая принимает входные данные в качестве аргумента и передается как результат на выходе программы.
+program’s output as its result. Основная программа - функция которая принимает входные данные в качестве аргумента и передается как результат на выходе из программы.
 
 Typically the main function is defined in terms of
 other functions, which in turn are defined in terms of still more functions, until
