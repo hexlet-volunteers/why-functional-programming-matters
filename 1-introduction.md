@@ -2,23 +2,37 @@
 #Введение
 
 
-This paper is an attempt to demonstrate to the larger community of (nonfunctional) programmers the significance of functional programming, and also
+This paper is an attempt to demonstrate to the larger community of (nonfunctional)
+programmers the significance of functional programming, and also
 to help functional programmers exploit its advantages to the full by making it
 clear what those advantages are.
 
-Данная статья - попытка показать смысл функционального программирования широкому сообществу программистов (которые не используют функциональный подход), а также, помочь программистам, которые используют функциональное программирование как основной инструмент разработки, ясно понять какие возможности предоставляет данный подход.
+В работе предпринята попытка показать "нефункциональному большинству" программистов
+всю важность и значимость функционального программирования. Всем, кто знаком
+с функциональным стилем, работа поможет в полной мере насладиться его преимуществами,
+разъяснив детали.
 
 Functional programming is so called because its fundamental operation is
-the application of functions to arguments. A main program itself is written as a function that receives the program’s input as its argument and delivers the program’s output as its result. 
-
-Функциональное программирование называется так, потому что состоит в применении функции к аргументам. Основная программа - функция которая принимает входные данные в качестве аргумента и передается как результат на выходе из программы.
-
+the application of functions to arguments. A main program itself is written as a function
+that receives the program’s input as its argument and delivers the program’s output as its result.
 Typically the main function is defined in terms of
 other functions, which in turn are defined in terms of still more functions, until
 at the bottom level the functions are language primitives. All of these functions
 are much like ordinary mathematical functions, and in this paper they will be
 defined by ordinary equations. We are following Turner’s language Miranda[4]2
 here, but the notation should be readable without specific knowledge of this.
+
+Функциональным программирование называется по одной простой причине - в его основе лежит
+аппликация, операция применения функции к ее аргументам. По сути, в функциональном программировании
+программа является функцией, которая применяется к входным данным программы, а как результат вычисления
+формирует выход программы. Обычно основная функция является суперпозицией более простых функций,
+которые, в свою очередь, являются суперпозициями над еще более элементарными функциями, и так
+до тех пор, пока мы не опустимся до уровня семантических примитивов. Указанные выше функции
+весьма похожи на обычные математические функции, и в нашей работе мы будем задавать их в виде
+обычных систем уравнений. В работе мы будем использовать язык Miranda[4], разработанный Тернером,
+однако, все приводимые в работе выражения должны быть понятны читателю без каких-либо специальных
+познаний в данном языке.
+
 The special characteristics and advantages of functional programming are
 often summed up more or less as follows. Functional programs contain no
 assignment statements, so variables, once given a value, never change. More
