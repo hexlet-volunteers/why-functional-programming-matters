@@ -17,15 +17,27 @@ Typically the main function is defined in terms of
 other functions, which in turn are defined in terms of still more functions, until
 at the bottom level the functions are language primitives. All of these functions
 are much like ordinary mathematical functions, and in this paper they will be
-defined by ordinary equations. We are following Turner’s language Miranda[4]2
+defined by ordinary equations. 
+
+Как правило, основная функция определена в терминах других функций, которые, в свою очередь, определяются в терминах еще больше функций, пока на нижнем уровне функции не являются примитивами языка. Все эти функции очень похожи на обычные математические функции, и в данной статье, они будут определены обычными уравнениями.
+
+We are following Turner’s language Miranda[4]2
 here, but the notation should be readable without specific knowledge of this.
 The special characteristics and advantages of functional programming are
-often summed up more or less as follows. Functional programs contain no
+often summed up more or less as follows. 
+
+В рамках этой статьи мы следуем правилам языка Miranda (язык программирования некого Тернера), но обозначения должны быть доступны для чтения без специальных знаний такового. Отличительные черты и преимущества функционального программирования часто характеризуются следующим образом.
+
+Functional programs contain no
 assignment statements, so variables, once given a value, never change. More
-generally, functional programs contain no side-effects at all. A function call
+generally, functional programs contain no side-effects at all.
+
+В программах, написанных в функцональной парадигме, отсутствуют операторы присваивания, следовательно, как только переменным присваиваются значения, никогда не меняются. В более общем смысле, такие программы не содержат никаких побочных эффектов вообще.
+
+A function call
 can have no effect other than to compute its result. This eliminates a major
-source of bugs, and also makes the order of execution irrelevant — since no sideeffect can change an expression’s value, it can be evaluated at any time. This
-relieves the programmer of the burden of prescribing the flow of control. Since
+source of bugs, and also makes the order of execution irrelevant — since no sideeffect can change an expression’s value, it can be evaluated at any time. 
+This relieves the programmer of the burden of prescribing the flow of control. Since
 expressions can be evaluated at any time, one can freely replace variables by
 their values and vice versa — that is, programs are “referentially transparent”.
 This freedom helps make functional programs more tractable mathematically
