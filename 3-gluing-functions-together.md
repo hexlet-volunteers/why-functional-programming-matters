@@ -2,7 +2,8 @@
 
 The first of the two new kinds of glue enables simple functions to be glued
 together to make more complex ones. It can be illustrated with a simple listprocessing problem — adding the elements of a list. We can define lists by
-```image```
+```image
+```
 which means that a list of ∗s (whatever ∗ is) is either Nil , representing a list
 with no elements, or a Cons of a ∗ and another list of ∗s. A Cons represents
 a list whose first element is the ∗ and whose second and subsequent elements
