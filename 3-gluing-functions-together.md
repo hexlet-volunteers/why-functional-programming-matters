@@ -1,30 +1,28 @@
-# 3 Gluing functions together
+# 3 Соединение функций вместе
 
 The first of the two new kinds of glue enables simple functions to be glued
 together to make more complex ones. It can be illustrated with a simple listprocessing problem — adding the elements of a list. We can define lists by
 
+Первый из двух новых видов соединений функций, позволяет функциям образовывать более сложные. Это можно увидеть на примере работы с простым списком -- добавления элементов в список. Мы можем определять списки как
+
 ```image
 ```
 
-which means that a list of ∗s (whatever ∗ is) is either Nil , representing a list
-with no elements, or a Cons of a ∗ and another list of ∗s. A Cons represents
-a list whose first element is the ∗ and whose second and subsequent elements
-are the elements of the other list of ∗s. Here ∗ may stand for any type — for
-example, if ∗ is “integer” then the definition says that a list of integers is either
-empty or a Cons of an integer and another list of integers. Following normal
-practice, we will write down lists simply by enclosing their elements in square
-brackets, rather than by writing Conses and Nil s explicitly. This is simply a
-shorthand for notational convenience. For example,
+which means that a list of ∗s (whatever ∗ is) is either Nil , representing a list with no elements, or a Cons of a ∗ and another list of ∗s. A Cons represents a list whose first element is the ∗ and whose second and subsequent elements are the elements of the other list of ∗s. Here ∗ may stand for any type — for example, if ∗ is “integer” then the definition says that a list of integers is either empty or a Cons of an integer and another list of integers. Following normal practice, we will write down lists simply by enclosing their elements in square brackets, rather than by writing Conses and Nil s explicitly. This is simply a shorthand for notational convenience. For example,
+
+что означает, что список ∗s (независимо от ∗) - это либо `Nil`, представляющий собой список без элементов, или `Cons` для `∗` и другого списка `∗s`. `Cons` является списком, первый элемент которого `∗`, а второй и последующие элементы являются элементами списка `∗s`. Здесь `∗` может обозначать любой тип данных - например, если `∗` является "целым числом", то определение говорит, что список целых чисел либо пуст, либо является `Cons` (соединением) целого числа и другого списка целых чисел. Следуя принятым обозначениям, мы будем записывать списки просто заключив их элементы в квадратные скобки, не используя `Cons` и `Nil` в явном виде. Это просто сокращение для удобства записи. Например,
 
 ```
-[ ] means Nil
-[1] means Cons 1 Nil
-[1, 2, 3] means Cons 1 (Cons 2 (Cons 3 Nil))
+[ ] то же самое, что и Nil
+[1] то же самое, что и Cons 1 Nil
+[1, 2, 3] то же самое, что и Cons 1 (Cons 2 (Cons 3 Nil))
 ```
 
 The elements of a list can be added by a recursive function sum. The function
 sum must be defined for two kinds of argument: an empty list (Nil ), and a
 Cons. Since the sum of no numbers is zero, we define
+
+Элементы списка могут быть добавлены с помощью рекурсивной функции `sum`. Функция должна быть определена для двух аргументов: для пустого списка (`Nil`) и для `Cons`. Так как сумма нуля чисел равна нулю мы определяем
 
 ```
 sum Nil = 0
@@ -33,6 +31,9 @@ sum Nil = 0
 and since the sum of a Cons can be calculated by adding the first element of
 the list to the sum of the others, we can define
 
+и сумма `Cons` может быть вычислена путем добавления первого элемента
+списка к сумме других, мы можем определить
+
 ```
 sum (Cons n list) = num + sum list
 ```
@@ -40,14 +41,15 @@ sum (Cons n list) = num + sum list
 Examining this definition, we see that only the boxed parts below are specific
 to computing a sum.
 
+Посмотрев на это определение, можно видеть, что только во второй части приведены конкретные действия для вычисления суммы.
+
 ```
 sum Nil = 0
 sum (Cons n list) = n + sum list
 ```
 
 This means that the computation of a sum can be modularized by gluing
-together a general recursive pattern and the boxed parts. This recursive pattern
-is conventionally called foldr and so sum can be expressed as
+together a general recursive pattern and the boxed parts. This recursive pattern is conventionally called foldr and so sum can be expressed as
 
 ```
 sum = foldr (+) 0
@@ -296,4 +298,3 @@ functions should be written for processing it. This makes manipulating the
 datatype easy, and it also localizes knowledge about the details of its representation. The best analogy with conventional programming is with extensible
 languages — in effect, the programming language can be extended with new
 control structures whenever desired.
-
