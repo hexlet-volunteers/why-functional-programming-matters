@@ -37,11 +37,17 @@ generally, functional programs contain no side-effects at all.
 A function call
 can have no effect other than to compute its result. This eliminates a major
 source of bugs, and also makes the order of execution irrelevant — since no sideeffect can change an expression’s value, it can be evaluated at any time. 
+
+Вызов функции может не иметь никакого эффекта, кроме вычисления его результата. Таким образом, исключается различного рода ошибки, а также делает порядок выполнения кода необязательным сверху вниз - поскольку ни один побочный эффект не может изменить значение выражения, оно может быть оценено в любое время.
+
 This relieves the programmer of the burden of prescribing the flow of control. Since
 expressions can be evaluated at any time, one can freely replace variables by
 their values and vice versa — that is, programs are “referentially transparent”.
 This freedom helps make functional programs more tractable mathematically
 than their conventional counterparts.
+
+
+
 Such a catalogue of “advantages” is all very well, but one must not be surprised if outsiders don’t take it too seriously. It says a lot about what functional
 programming isn’t (it has no assignment, no side effects, no flow of control) but
 not much about what it is. The functional programmer sounds rather like a
