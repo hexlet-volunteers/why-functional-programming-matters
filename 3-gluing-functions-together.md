@@ -1,4 +1,4 @@
-# 3 Соединение функций вместе
+# 3 Композиция функций
 
 The first of the two new kinds of glue enables simple functions to be glued
 together to make more complex ones. It can be illustrated with a simple listprocessing problem — adding the elements of a list. We can define lists by
@@ -41,7 +41,7 @@ sum (Cons n list) = num + sum list
 Examining this definition, we see that only the boxed parts below are specific
 to computing a sum.
 
-Посмотрев на это определение, можно видеть, что только во второй части приведены конкретные действия для вычисления суммы.
+Посмотрев на это определение, можно видеть, что только в первой части приведены конкретные действия для вычисления суммы.
 
 ```
 sum Nil = 0
@@ -51,6 +51,9 @@ sum (Cons n list) = n + sum list
 This means that the computation of a sum can be modularized by gluing
 together a general recursive pattern and the boxed parts. This recursive pattern is conventionally called foldr and so sum can be expressed as
 
+This means that the computation of a sum can be modularized by gluing
+together a general recursive pattern and the boxed parts. Этот рекурсивный шаблон условно называется `foldr` и поэтому сумма может быть выражена как
+
 ```
 sum = foldr (+) 0
 ```
@@ -58,20 +61,22 @@ sum = foldr (+) 0
 The definition of foldr can be derived just by parameterizing the definition of
 sum, giving
 
+Определение `foldr` может быть получено путем параметризации определения функции `sum` следующим образом
+
 ```
 (foldr f x) Nil = x
 (foldr f x) (Cons a l ) = f a ((foldr f x) l )
 ```
 
-Here we have written brackets around (foldr f x) to make it clear that it replaces
-sum. Conventionally the brackets are omitted, and so ((foldr f x) l) is written
-as (foldr f x l). A function of three arguments such as foldr, applied to only
-two, is taken to be a function of the one remaining argument, and in general,
-a function of n arguments applied to only m of them (m < n) is taken to be a
-function of the n − m remaining ones. We will follow this convention in future.
+Here we have written brackets around (foldr f x) to make it clear that it replaces sum. Conventionally the brackets are omitted, and so ((foldr f x) l) is written as (foldr f x l). A function of three arguments such as foldr, applied to only two, is taken to be a function of the one remaining argument, and in general, a function of n arguments applied to only m of them (m < n) is taken to be a function of the n − m remaining ones. We will follow this convention in future.
+
+Здесь мы пришем скобки вокруг `(foldr f x)` чтобы более ясно показать, что это заменяет функцию `sum`. Скобки могут быть опущены, и `((foldr f x) l)` может быть записано как `(foldr f x l)`. Функции трех аргументов, такие как `foldr, применяются к двум рагументам, а затем получается функция от одного аргумента,  и в общем случае, функция `n` аргументов, которая применяется к `m` аргументам, где m < n дает функцию  от `n − m` оставшихся аргументов.
+
 Having modularized sum in this way, we can reap benefits by reusing the
 parts. The most interesting part is foldr, which can be used to write down a
 function for multiplying together the elements of a list with no further programming:
+
+Записав функцию `sum` в таком виде, мы можем получить выгодную возможность переиспользования частей определения. Самое интересное, что `foldr` может использоваться, для записи функции умножения элементов списка без дальнейшей доработки: 
 
 ```
 product = foldr (∗) 1
@@ -79,19 +84,23 @@ product = foldr (∗) 1
 
 It can also be used to test whether any of a list of booleans is true
 
+Можно так же использовать `foldr` проверки того, является ли хотя бы одно значение списка булеых значений истинным 
+
 ```
 anytrue = foldr (∨) F alse
 ```
 
 or whether they are all true
 
+или являются ли все значения истинными
+
 ```
 alltrue = foldr (∧) True
 ```
 
-One way to understand (foldr f a) is as a function that replaces all occurrences
-of Cons in a list by f , and all occurrences of Nil by a. Taking the list [1, 2, 3]
-as an example, since this means
+One way to understand (foldr f a) is as a function that replaces all occurrences of Cons in a list by f , and all occurrences of Nil by a. Taking the list [1, 2, 3] as an example, since this means
+
+Один из способов понять `(foldr f a)` как функцию  состоит в том, чтобы заменить все вхлждения `Cons` в списке на `f` , а все вхождения `Nil` на `a`. Например, [1, 2, 3] будет обозначать то же, что и
 
 ```
 Cons 1 (Cons 2 (Cons 3 Nil ))
@@ -99,24 +108,27 @@ Cons 1 (Cons 2 (Cons 3 Nil ))
 
 then (foldr (+) 0) converts it into
 
+тогда `(foldr (+) 0)` преобразуется в
+
 ```
 (+) 1 ((+) 2 ((+) 3 0)) = 6
 ```
 
-and (foldr (∗) 1) converts it into
+и `(foldr (∗) 1)` преобразуется в
 
 ```
 (∗) 1 ((∗) 2 ((∗) 3 1)) = 6
 ```
 
-Now it’s obvious that (foldr Cons Nil ) just copies a list. Since one list can be
-appended to another by Cons ing its elements onto the front, we find
+Now it’s obvious that (foldr Cons Nil ) just copies a list. Since one list can be appended to another by Cons ing its elements onto the front, we find
+
+Теперь очевидно, что `(foldr Cons Nil)` просто копирует список. Поскольку в голову списка могут быть ешё добавлены, то
 
 ```
 append a b = foldr Cons b a
 ```
 
-As an example,
+Например,
 
 ```
 append [1, 2] [3, 4] = foldr Cons [3, 4] [1, 2]
@@ -125,14 +137,20 @@ append [1, 2] [3, 4] = foldr Cons [3, 4] [1, 2]
 (replacing Cons by Cons and Nil by [3, 4])
 = [1, 2, 3, 4]
 ```
-We can count the number of elements in a list using the function length, defined
-by
 
+We can count the number of elements in a list using the function length, defined by
+
+Мы можем подсчитать количество элементов в списке с помощью функции `length`, определяемой как
+
+``
 length = foldr count 0
 count a n = n + 1
+``
 
 because count increments 0 as many times as there are Cons es. A function that
 doubles all the elements of a list could be written as
+
+потому что `count` добавляет единицу к нулю столько раз, сколько элементов присутствует в списке. Функция, которая дублирует элементы списка может быть записана как
 
 ```
 doubleall = foldr doubleandcons Nil
@@ -140,17 +158,23 @@ doubleall = foldr doubleandcons Nil
 
 where
 
+где
+
 ```
 doubleandcons n list = Cons (2 ∗ n) list
 ```
 
 The function doubleandcons can be modularized even further, first into
 
+Функция `doubleandcons` может быть обобщена ещё больше
+
 ```
 doubleandcons = f andcons double
 ```
 
 where
+
+где
 
 ```
 double n = 2 ∗ n
@@ -159,18 +183,23 @@ f andcons f el list = Cons (f el ) list
 
 and then by
 
+и тогда поскольку
+
 ```
 f andcons f = Cons . f
 ```
 
 where “.” (function composition, a standard operator) is defined by
 
+где “.” (функция композиции, стандартный оператор) определенная как
+
 ```
 (f . g) h = f (g h)
 ```
 
-We can see that the new definition of f andcons is correct by applying it to some
-arguments:
+We can see that the new definition of f andcons is correct by applying it to some arguments:
+
+Мы можем видеть, что новое определение `f andcons` будет правильным  будучи примененным к некоторым аргументам:
 
 ```
 f andcons f el
@@ -181,11 +210,15 @@ f andcons f el
 
 so
 
+так
+
 ```
 f andcons f el list = Cons (f el ) list
 ```
 
 The final version is
+
+Финальная версия
 
 ```
 doubleall = foldr (Cons . double) Nil
