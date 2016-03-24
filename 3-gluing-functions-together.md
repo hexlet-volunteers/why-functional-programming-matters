@@ -22,7 +22,7 @@ The elements of a list can be added by a recursive function sum. The function
 sum must be defined for two kinds of argument: an empty list (Nil ), and a
 Cons. Since the sum of no numbers is zero, we define
 
-Элементы списка могут быть добавлены с помощью рекурсивной функции `sum`. Функция должна быть определена для двух аргументов: для пустого списка (`Nil`) и для `Cons`. Так как сумма нуля чисел равна нулю мы определяем
+Элементы списка могут быть сложены с помощью рекурсивной функции `sum`. Функция должна быть определена для двух аргументов: для пустого списка (`Nil`) и для `Cons`. Так как сумма нуля чисел равна нулю мы определяем
 
 ```
 sum Nil = 0
