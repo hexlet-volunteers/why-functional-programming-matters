@@ -88,11 +88,39 @@ omitted! This is plainly ridiculous. If omitting assignment statements brought
 such enormous benefits then Fortran programmers would have been doing it
 for twenty years. It is a logical impossibility to make a language more powerful
 by omitting features, no matter how bad they may be.
+
+Программисты, приверженцы функционального подхода, возражают на это, утверждая,
+что они на порядок продуктивнее своих "обыкновенных" визави, поскольку
+программы, написанные в функциональном стиле, на порядок короче. Конечно,
+а как же еще? Однако, положив руку на сердце, признаемся, что подобные рассуждения
+справедливы лишь в случае, если бы "обычная" программа состояла на 90% из
+операций присваивания, а применение функциональной парадигмы просто бы их все устранило.
+Выглядит глупо. Если бы устранение операции присваивания давало бы такие громадные
+преимущества, то пальму первенства в продуктивности последние 20 лет должны были бы
+удерживать программисты Fortran'а. К сожалению, устранение из языка какой-либо его
+особенности, какой бы плохой она не была, в подавляющем большинстве случаев не делает
+язык лучше.
+
 Even a functional programmer should be dissatisfied with these so-called
-advantages, because they give no help in exploiting the power of functional languages. One cannot write a program that is particularly lacking in assignment
+advantages, because they give no help in exploiting the power of functional languages.
+One cannot write a program that is particularly lacking in assignment
 statements, or particularly referentially transparent. There is no yardstick of
 program quality here, and therefore no ideal to aim at.
+
+Более того, даже поклонники функционального подхода не жалуют эти, так называемые
+"преимущества", поскольку последние ничуть не помогают раскрыть всю мощь
+и прелесть функциональных языков. Кто-то не может обойтись без операций
+присваивания при написании программы, кому-то тяжело добиться идеальной
+ссылочной прозрачности. В такой системе координат нет мерила качества программы,
+а потому нет и идеала, к которому следовало бы стремиться.
+
 Clearly this characterization of functional programming is inadequate. We
 must find something to put in its place — something that not only explains the
 power of functional programming but also gives a clear indication of what the
 functional programmer should strive towards.
+
+Совершенно понятно, что подобный список "преимуществ" языка не может быть адекватным.
+Мы должны найти нечто более подходящее, нечто, что позволит не только наглядно раскрыть
+мощь функционального подхода, но также даст и четкие критерии качества создаваемых
+программ, которых должен придерживаться программист, использующий функциональный
+стиль программирования.
