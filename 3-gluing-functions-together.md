@@ -70,7 +70,7 @@ sum, giving
 
 Here we have written brackets around (foldr f x) to make it clear that it replaces sum. Conventionally the brackets are omitted, and so ((foldr f x) l) is written as (foldr f x l). A function of three arguments such as foldr, applied to only two, is taken to be a function of the one remaining argument, and in general, a function of n arguments applied to only m of them (m < n) is taken to be a function of the n − m remaining ones. We will follow this convention in future.
 
-Здесь мы пришем скобки вокруг `(foldr f x)` чтобы более ясно показать, что это заменяет функцию `sum`. Скобки могут быть опущены, и `((foldr f x) l)` может быть записано как `(foldr f x l)`. Функции трех аргументов, такие как `foldr, применяются к двум рагументам, а затем получается функция от одного аргумента,  и в общем случае, функция `n` аргументов, которая применяется к `m` аргументам, где m < n дает функцию  от `n − m` оставшихся аргументов.
+Здесь мы пришем скобки вокруг `(foldr f x)` чтобы более ясно показать, что это заменяет функцию `sum`. Скобки могут быть опущены, и `((foldr f x) l)` может быть записано как `(foldr f x l)`. Функции трех аргументов, такие как `foldr`, применяются к двум рагументам, а затем получается функция от одного аргумента,  и в общем случае, функция `n` аргументов, которая применяется к `m` аргументам, где m < n дает функцию  от `n − m` оставшихся аргументов.
 
 Having modularized sum in this way, we can reap benefits by reusing the
 parts. The most interesting part is foldr, which can be used to write down a
@@ -84,7 +84,7 @@ product = foldr (∗) 1
 
 It can also be used to test whether any of a list of booleans is true
 
-Можно так же использовать `foldr` проверки того, является ли хотя бы одно значение списка булеых значений истинным 
+Можно так же использовать `foldr` проверки того, является ли хотя бы одно значение списка булевых значений истинным 
 
 ```
 anytrue = foldr (∨) F alse
@@ -100,7 +100,7 @@ alltrue = foldr (∧) True
 
 One way to understand (foldr f a) is as a function that replaces all occurrences of Cons in a list by f , and all occurrences of Nil by a. Taking the list [1, 2, 3] as an example, since this means
 
-Один из способов понять `(foldr f a)` как функцию  состоит в том, чтобы заменить все вхлждения `Cons` в списке на `f` , а все вхождения `Nil` на `a`. Например, [1, 2, 3] будет обозначать то же, что и
+Один из способов понять `(foldr f a)` как функцию  состоит в том, чтобы заменить все вхождения `Cons` в списке на `f` , а все вхождения `Nil` на `a`. Например, [1, 2, 3] будет обозначать то же, что и
 
 ```
 Cons 1 (Cons 2 (Cons 3 Nil ))
@@ -122,11 +122,13 @@ then (foldr (+) 0) converts it into
 
 Now it’s obvious that (foldr Cons Nil ) just copies a list. Since one list can be appended to another by Cons ing its elements onto the front, we find
 
-Теперь очевидно, что `(foldr Cons Nil)` просто копирует список. Поскольку в голову списка могут быть ешё добавлены, то
+Теперь очевидно, что `(foldr Cons Nil)` просто копирует список. Так как список ещё может быть расширен путем добавления новых элементов в голову с помощью `Cons` то мы определяем
 
 ```
 append a b = foldr Cons b a
 ```
+
+As an example,
 
 Например,
 
