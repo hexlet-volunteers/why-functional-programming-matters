@@ -67,7 +67,17 @@ if outsiders don’t take it too seriously. It says a lot about what functional
 programming isn’t (it has no assignment, no side effects, no flow of control) but
 not much about what it is. The functional programmer sounds rather like a
 mediæval monk, denying himself the pleasures of life in the hope that it will
-make him virtuous. To those more interested in material benefits, these “advantages” are totally unconvincing.
+make him virtuous. To those more interested in material benefits, these
+“advantages” are totally unconvincing.
+
+Все эти "рюшечки" функционального программирования без всякого сомнения хороши,
+однако, зачастую малоубедительны. Они указывают на то, чего в функциональном
+программировании нет (нет присваиваний, нет побочных эффектов, нет порядка вычислений),
+однако, не отвечают на вопрос, чем же этот мир наполнен. В этом смысле программист,
+практикующий функциональный подход, похож на средневекового монаха, лишившего себя
+всех прелестей жизни в надежде, что это добавит ему добродетели. "Мирянам" же с их
+плотскими страстями все это кажется пустой тратой времени.
+
 Functional programmers argue that there are great material benefits — that
 a functional programmer is an order of magnitude more productive than his
 or her conventional counterpart, because functional programs are an order of
