@@ -122,7 +122,7 @@ then (foldr (+) 0) converts it into
 
 Now it’s obvious that (foldr Cons Nil ) just copies a list. Since one list can be appended to another by Cons ing its elements onto the front, we find
 
-Теперь очевидно, что `(foldr Cons Nil)` просто копирует список. Так как список ещё может быть расширен путем добавления новых элементов в голову с помощью `Cons` то мы определяем
+Теперь очевидно, что `(foldr Cons Nil)` просто копирует список. Так как список ещё может быть расширен путем добавления новых элементов в голову с помощью `Cons`, то мы определяем
 
 ```
 append a b = foldr Cons b a
