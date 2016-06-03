@@ -162,18 +162,30 @@ which the parts may be put.
 
 Since the Newton-Raphson algorithm computes a sequence of approximations it is natural to represent this explicitly in the program by a list of approximations. Each approximation is derived from the previous one by the function
 
+Так как алгоритм Ньютона-Рафсона вычисляет последовательность приближений,
+естественно представить это в явном виде в программе списком приближений.
+Каждое приближение получено из предыдущего с помощью функции
+
+
 next n x = (x + n/x)/2
 
 so (next n) is the function mapping one approximation onto the next. Calling
 this function f , the sequence of approximations is
 
+Таким образом (next n) является функцией отображения одного приближения на следующее.
+Если назовем эту функцию f получим последовательность приближений
+
 [a0, f a0, f (f a0), f (f (f a0)), . . . ]
 
 We can define a function to compute this:
 
+Мы можем определить функцию для вычисления следующего:
+
 repeat f a = Cons a (repeat f (f a))
 
 so that the list of approximations can be computed by
+
+соответственно список приближений можно вычислить с помощью
 
 repeat (next n) a0
 
@@ -182,16 +194,33 @@ it doesn’t matter, because no more approximations will actually be computed
 than the rest of the program requires. The infinity is only potential: All it means
 is that any number of approximations can be computed if required; repeat itself
 places no limit.
+
+
+Функция repeat является примером функции с "бесконечными" выходными данными - но
+это не имеет значения, потому что несмотря на требования оставшейся части программы
+приближения больше вычисляться не будут. Бесконечность является только потенциалом:
+это означает, что при необходимости любое число приближений можно вычислить;
+неоднократное повторение само по себе не накладывает никаких ограничений.
+
+
 The remainder of a square root finder is a function within, which takes a
 tolerance and a list of approximations and looks down the list for two successive
 approximations that differ by no more than the given tolerance. It can be
 defined by
+
+Нахождение остатка квадратного корня является функцией within, которая принимает
+допуск и список приближений и ищет в этом списке два последовательных
+риближения, отличающиеся не более чем на данный допуск. Это может быть определено как
+
 
 within eps (Cons a (Cons b rest))
   = b, if abs (a − b) ≤ eps
   = within eps (Cons b rest), otherwise
 
 Putting the parts together, we have
+
+Соединив эти элементы вместе получим
+
 
 sqrt a0 eps n = within eps (repeat (next n) a0)
 
@@ -203,15 +232,29 @@ the difference to approach 0. This is more appropriate for very small numbers
 and for very large ones (when rounding error could be much larger than the
 tolerance). It is only necessary to define a replacement for within:
 
+Теперь, когда мы имеем элементы нахождения квадратного корня, мы можем попытаться скомбинировать
+их по-разному. Одной из разновидностей, которую мы можем реализовать, это дождаться между  стремящегося к 1 соотношения между последовательными приближениями (в отличие от нахождения стремящейся
+к 0 разницы). Это больше подходит для очень маленьких чисел (когда разность между
+последовательными приближениями с самого начала мала) и для очень крупных (когда
+погрешность округления может быть гораздо больше, чем допуск). Необходимо лишь определить
+замену в пределах:
+
+
 relative eps (Cons a (Cons b rest))
   = b, if abs (a/b − 1) ≤ eps
   = relative eps (Cons b rest), otherwise
 
 Now a new version of sqrt can be defined by
 
+Теперь новая версия sqrt может быть определена
+
+
 relativesqrt a0 eps n = relative eps (repeat (next n) a0)
 
 It is not necessary to rewrite the part that generates approximations.
+
+Нет необходимости переписывать часть, которая генерирует приближения.
+
 
 ## 4.2 Numerical Differentiation
 
