@@ -1,9 +1,17 @@
 # Gluing programs together
+# Соединение программ вместе
 
 The other new kind of glue that functional languages provide enables whole
 programs to be glued together. Recall that a complete functional program is
 just a function from its input to its output. If f and g are such programs, then
 (g . f ) is a program that, when applied to its input, computes
+
+
+Функциональные языки позволяют и другой вид соединения - целые программы могут быть соединены вместе. 
+Напомним, что полностью функциональная программа это просто функция от ее входных параметров с результатом 
+вычисления  на выходе. Если f и g такие программы, то (g . f) это программа, которой на вход подается 
+результат вычисления функции и которая вычисляет
+
 
 g (f input)
 
@@ -20,6 +28,22 @@ output, then f is aborted. Program f can even be a nonterminating program,
 producing an infinite amount of output, since it will be terminated forcibly as
 soon as g is finished. This allows termination conditions to be separated from
 loop bodies — a powerful modularization.
+
+
+Программа f вычисляет результат на выходе, который применяется как входные данные в программе g.
+Это можно реализовать обычным способом, сохранив результат вычисления программы f во временном файле.
+Но в этом случае временный файл может занять слишком много памяти и соединение программ вместе таким 
+способом становится нецелесообразным. Функциональные языки предоставляют решение этой проблемы. 
+Обе программы f и g выполняются вместе в строгой последовательности: когда программа g пытается прочитать 
+некоторые входные данные запускается программа f и выполняется до появления результата вычисления, 
+который программа g считывает.
+Затем f приостанавливается и g выполняется пока ей не понадобятся другие входные данные.
+В качестве дополнительного бонуса, если g завершается без считывания всех выходных данных f то выполнение f будет прервано.
+Программа f может быть даже бесконечной и вычисляющей безграничное количество выходных данных, 
+но как только программа g будет завершена также принудительно прекращается выполнение программы f. 
+Это позволяет отделить условия завершения от тел циклов - мощная модуляризация.
+
+
 Since this method of evaluation runs f as little as possible, it is called “lazy
 evaluation”. It makes it practical to modularize a program as a generator that
 constructs a large number of possible answers, and a selector that chooses the
@@ -28,18 +52,45 @@ in this manner, only functional languages (and not even all of them) use lazy
 evaluation uniformly for every function call, allowing any part of a program to
 be modularized in this way. Lazy evaluation is perhaps the most powerful tool
 for modularization in the functional programmer’s repertoire.
+
+
+Поскольку этот метод вычисления запускает f как можно реже, то он получил название "ленивые (отложенные) 
+вычисления". Целесообразнее для увеличения модульности программы проектировать ее в качестве генератора, 
+который строит большое количество возможных ответов, и селектора, который выбирает соответствующий ответ.
+В то время как некоторые другие системы позволяют программам работать вместе в этом ключе,
+только функциональные языки (и даже не все из них) используют ленивые вычисления равномерно для каждого 
+вызова функции, позволяя таким образом любой части программы быть модульной. Ленивые вычисления, возможно, 
+самый мощный инструмент для увеличения модульности в арсенале функциональных программистов.
+
+
 We have described lazy evaluation in the context of functional languages,
 but surely so useful a feature should be added to nonfunctional languages —
-or should it? Can lazy evaluation and side-effects coexist? Unfortunately, they
-cannot: Adding lazy evaluation to an imperative notation is not actually impossible, but the combination would make the programmer’s life harder, rather than
+or should it? с Unfortunately, they cannot: Adding lazy evaluation to an imperative notation is not 
+actually impossible, but the combination would make the programmer’s life harder, rather than
 easier. Because lazy evaluation’s power depends on the programmer giving up
 any direct control over the order in which the parts of a program are executed,
 it would make programming with side effects rather difficult, because predicting
 in what order —or even whether— they might take place would require knowing
-a lot about the context in which they are embedded. Such global interdependence would defeat the very modularity that —in functional languages— lazy
-evaluation is designed to enhance.
+a lot about the context in which they are embedded. Such global interdependence would defeat 
+the very modularity that — in functional languages — lazy evaluation is designed to enhance.
+
+
+Мы описали ленивые вычисления в контексте функциональных языков, но несомненно, такую полезную особенность 
+следует добавить в нефункциональные языки - или не так? Могут ли ленивые вычисления и побочные эффекты 
+сосуществовать? К сожалению, не могут: добавление ленивых вычислений в императивной нотации фактически 
+возможно, но такое сочетание сделало бы жизнь программиста труднее, нежели легче. Поскольку мощь ленивых вычислений 
+зависит от того, сможет ли программист отказаться от прямого контроля над порядком исполнения программы,
+это сделало бы программирование с побочными эффектами весьма сложным, потому что прогнозирование
+в каком порядке или даже наличия побочных эффектов потребовало бы знать весь контекст ситуации.
+Такая глобальная взаимозависимость могла бы разрушить ту самую модульность, которую - в функциональных языках - ленивые вычисления предназначены повысить.
+
 
 ## 4.1  Newton-Raphson Square Roots
+
+
+## 4.1  Квадратный корень Ньютона-Рафсона.
+
+
 
 We will illustrate the power of lazy evaluation by programming some numerical
 algorithms. First of all, consider the Newton-Raphson algorithm for finding
@@ -47,13 +98,29 @@ algorithms. First of all, consider the Newton-Raphson algorithm for finding
 from an initial approximation a0 and computing better and better ones using
 the rule
 
+
+Мы проиллюстрируем мощь ленивых вычислений, программируя некоторые вычислительные
+алгоритмы. Прежде всего, рассмотрим алгоритм Ньютона-Рафсона для нахождения
+квадратного корня. Этот алгоритм вычисляет квадратный корень из числа п, начиная
+от начального приближения а0 и вычисляя более точное число, используя
+правило
+
+
 ai+1 = (ai + n/ai )/2
 
 If the approximations converge to some limit a, then
 
+
+Если приближения сходятся к некоторому пределу а, то
+
+
 a = (a + n/a)/2
 
 so
+
+
+таким образом
+
 
 2a = a + n/a
 a = n/a
@@ -64,6 +131,13 @@ In fact the approximations converge rapidly to a limit. Square root programs
 take a tolerance (eps) and stop when two successive approximations differ by
 less than eps.
 The algorithm is usually programmed more or less as follows:
+
+
+На самом деле приближения быстро сходятся к некоторому пределу. Программа вычисляет 
+квадратный корень с заданной точностью (eps - машинный эпсилон) и останавливается, 
+когда два последовательных приближения отличаются
+друг от друга на величину меньшую величине eps.
+
 
 C N IS CALLED ZN HERE SO THAT IT HAS THE RIGHT TYPE
   X = A0
