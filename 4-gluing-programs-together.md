@@ -459,11 +459,21 @@ modularized using lazy evaluation.
 
 ## 4.3 Numerical Integration
 
+## 4.3 Численное интегрирование
+
+
 The last example we will discuss in this section is numerical integration. The
 problem may be stated very simply: Given a real-valued function f of one real
 argument, and two points a and b, estimate the area under the curve that f
 describes between the points. The easiest way to estimate the area is to assume
 that f is nearly a straight line, in which case the area would be
+
+Последний пример, который мы рассмотрим в этой главе, это численное интегрирование.
+Проблема может быть сформулирована очень просто: дана вещественная функция f с одним вещественным
+аргументом и две точки а и b, необходимо определить площадь под кривой, которую описывает f
+между этими точками. Самый простой способ оценить площадь заключается в предположении,
+что f почти прямая линия, и в этом случае площадь будет
+
 
 easyintegrate f a b = (f a + f b) ∗ (b − a)/2
 
@@ -475,6 +485,15 @@ using the formula above for the first approximation, and then adding together
 better and better approximations to the integrals on each half to calculate the
 others. This sequence is computed by the function
 
+К сожалению, эта велична, вероятно, будет очень неточной, если a и b не находятся
+близко к друг другу. Более точная велична может быть определена путем деления интервала от a до
+b на две части, определения площади каждой половины и сложения этих результатов.
+Мы можем определить последовательность лучших и лучших приближений к значению интеграла
+используя формулу выше для первого приближения, а затем складыванием
+лучших и лучших приближений к интегралам каждой половины, чтобы вычислить
+другие. Эта последовательность вычисляется с помощью функции
+
+
 integrate f a b = Cons (easyintegrate f a b)
 (map addpair (zip2 (integrate f a mid )
 (integrate f mid b)))
@@ -484,6 +503,12 @@ The function zip2 is another standard list-processing function. It takes two lis
 and returns a list of pairs, each pair consisting of corresponding elements of the
 two lists. Thus the first pair consists of the first element of the first list and the
 first element of the second, and so on. We can define zip2 by
+
+Функция zip2 еще одна стандартная функция обработки списков. Он принимает два списка
+и возвращает список пар, каждая пара состоит из соответствующих элементов
+двух списков. Таким образом, первая пара состоит из первого элемента первого списка и
+первого элемента второго, и так далее. Мы можем определить zip2 путем
+
 
 zip2 (Cons a s) (Cons b t) = Cons (a, b) (zip2 s t)
 
@@ -495,6 +520,16 @@ recomputes values of f . As written, easyintegrate evaluates f at a and at b,
 and then the recursive calls of integrate re-evaluate each of these. Also, (f mid)
 is evaluated in each recursive call. It is therefore preferable to use the following
 version, which never recomputes a value of f :
+
+При интегрировании, zip2 вычисляет список пар соответствующих приближений к
+интегралам по двум подынтервалам, и map addpair добавляет элементы
+пар вместе для формирования списка приближений исходного интеграла.
+На самом деле, эта версия интегрирования весьма неэффективна, потому что он постоянно
+пересчитывает значения f. Как написано, easyintegrate вычисляет f в точке а и в точке b,
+а затем рекурсивные вызовы интегрирования повторно вычисляет каждую из них. Кроме того, (f mid)
+овычисляется в каждом рекурсивном вызове. Поэтому предпочтительно использовать следующую
+версию, которая никогда не пересчитывает значение f:
+
 
 integrate f a b = integ f a b (f a) (f b)
 integ f a b f a f b =
@@ -508,6 +543,11 @@ fm = f m
 The function integrate computes an infinite list of better and better approximations to the integral, just as differentiate did in the section above. One can
 therefore just write down integration routines that integrate to any required
 accuracy, as in
+
+Функция интегрирования вычисляет бесконечный список лучших и лучших приближений к интегралу, так же как дифференцирование в предыдущем разделе. Поэтому можно
+просто записать процедуры интегрирования, которые интегрируют с любой требуемой
+точностью, см. ниже
+
 
 within eps (integrate f a b)
 relative eps (integrate f a b)
@@ -523,6 +563,19 @@ sequence is a candidate for improvement using the function improve defined
 in the preceding section. Therefore we can now write down quickly converging
 sequences of approximations to integrals, for example,
 
+Этот алгоритм интегрирования страдает от того же недостатка, как первый алгоритм дифференцирования в предыдущем разделе - он сходится довольно медленно.
+И снова он может быть улучшен. Первое приближение в последовательности
+вычисляется (используя easyintegrate) используя только две точки с расстоянием Ь - а.
+Второе приближение также использует среднюю точку, так что расстояние между соседними точками только
+(b − a)/2. Третье приближение использует этот
+метод на каждой половине интервала, так что расстояние между соседними точками
+только (b − a)/4. Очевидно, что расстояние между соседними точками уменьшается в два раза
+между каждым приближением и последующим. Принимая это расстояние как h, эта
+последовательность является кандидатом на улучшения с помощью функции улучшения, определенной
+в предыдущем разделе. Поэтому мы можем теперь записать быстро сходящиеся
+последовательности приближений к интегралам, например,
+
+
 super (integrate sin 0 4)
 and
 improve (integrate f 0 1)
@@ -534,3 +587,8 @@ to five decimal places.)
 In this section we have taken a number of numerical algorithms and programmed them functionally, using lazy evaluation as glue to stick their parts
 together. Thanks to this, we have been able to modularize them in new ways,
 into generally useful functions such as within, relative, and improve. By combining these parts in various ways we have programmed some quite good numerical algorithms very simply and easily.
+
+(Последняя последовательность представляет собой метод восьмого порядка для вычисления π/4. Второе
+приближение, для вычисления которого требуется только пять выполнений f, корректно
+до пяти знаков после запятой.)
+В этом разделе мы применили ряд численных алгоритмов и запрограммировали их функционально, используя ленивые вычисления как клей, чтобы склеить их части вместе. Благодаря этому, мы смогли модуляризировать их по-новому, посредством в целом полезных функций, таких как within, relative и improve. Объединяя эти части различными способами, мы довольно хорошо запрограммировали некоторые численные алгоритмы весьма просто и легко.
