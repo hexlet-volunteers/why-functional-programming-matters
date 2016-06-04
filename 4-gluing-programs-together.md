@@ -233,7 +233,7 @@ and for very large ones (when rounding error could be much larger than the
 tolerance). It is only necessary to define a replacement for within:
 
 Теперь, когда мы имеем элементы нахождения квадратного корня, мы можем попытаться скомбинировать
-их по-разному. Одной из разновидностей, которую мы можем реализовать, это дождаться между  стремящегося к 1 соотношения между последовательными приближениями (в отличие от нахождения стремящейся
+их по-разному. Одной из разновидностей, которую мы можем реализовать, это дождаться  стремящегося к 1 соотношения между последовательными приближениями (в отличие от нахождения стремящейся
 к 0 разницы). Это больше подходит для очень маленьких чисел (когда разность между
 последовательными приближениями с самого начала мала) и для очень крупных (когда
 погрешность округления может быть гораздо больше, чем допуск). Необходимо лишь определить
@@ -258,16 +258,33 @@ It is not necessary to rewrite the part that generates approximations.
 
 ## 4.2 Numerical Differentiation
 
+## 4.2 Численное дифференцирование
+
 We have reused the sequence of approximations to a square root. Of course,
 it is also possible to reuse within and relative with any numerical algorithm
 that generates a sequence of approximations. We will do so in a numerical
 differentiation algorithm.
+
+Мы неоднократно использовали последовательность приближений для нахождения квадратного корня.
+Конечно, таким же образом можно поступить с любым вычислительным алгоритмом,
+который генерирует последовательность приближений. Мы применим этот подход и для
+алгоритма численного дифференцирования.
+
+
 The result of differentiating a function at a point is the slope of the function’s
 graph at that point. It can be estimated quite easily by evaluating the function
 at the given point and at another point nearby and computing the slope of a
 straight line between the two points. This assumes that if the two points are
 close enough together, then the graph of the function will not curve much in
 between. This gives the definition
+
+Результат дифференцирования функции в некоторой точке является наклон графика функции
+в этой точке. Его можно довольно легко предположить путем выполнения функции в данной точке и
+в другой близлежащей точке и вычисления наклона прямой линии между двумя этими точками.
+При этом предполагается, что если две точки находятся достаточно близко друг к другу,
+то график функции между ними будет практически прямой.
+Это дает определение
+
 
 easydiff f x h = (f (x + h) − f x)/h
 
@@ -282,16 +299,38 @@ rounding error. If (within eps) is used to select the first approximation that
 is accurate enough, then the risk of rounding error affecting the result can be
 much reduced. We need a function to compute the sequence:
 
+Для того, чтобы получить хорошее приближение значение h должно быть очень мало.
+К сожалению, если h слишком мало, то два значения f (x + h) и f (x) почти равны,
+и таким образом погрешность округления при вычитании может привести к неправильному
+результату. Как можно выбрать правильное значение h? Одним из путей решения этой дилеммы
+является вычисление последовательности приближений с меньшими и меньшими значениями h,
+начиная с достаточно большого h. Такая последовательность должна сходиться к
+значению производной, но станет безнадежно неточной в конечном счете из-за
+погрешности округления. Если (в пределах eps) было выбрано достаточно точное первое
+приближение, то риск влияния на результат погрешности округления может быть
+значительно снижен. Нам нужна функция для вычисления следующей последовательности:
+
+
 differentiate h0 f x = map (easydiff f x) (repeat halve h0)
 halve x = x/2
 
 Here h0 is the initial value of h, and successive values are obtained by repeated
 halving. Given this function, the derivative at any point can be computed by
 
+Здесь h0 это начальное значение h, а последовательные значения получены повторным
+уменьшение в два раза. С учетом этой функции, производная в любой точке может быть
+вычислена с помощью
+
+
 within eps (differentiate h0 f x)
 
 Even this solution is not very satisfactory because the sequence of approximations converges fairly slowly. A little simple mathematics can help here. The
 elements of the sequence can be expressed as
+
+Даже это решение не является удовлетворительным, так как последовательность приближений
+сходится довольно медленно. Немного простой математики может помочь в этом.
+Элементы последовательности могут быть выражены как
+
 
 the right answer + an error term involving h
 
@@ -301,17 +340,32 @@ and let the error term be B × hn . Since each approximation is computed using
 a value of h twice that used for the next one, any two successive approximations
 can be expressed as
 
+и можно показать теоретически, что error term примерно пропорционально
+степени h и становится меньше по мере уменьшения h. Пусть правильный ответ будет A,
+и пусть error term будет B × hn. Поскольку каждое приближение вычисляется с
+использованием значения h дважды и которое используется для вычисления следующего приближения,
+любые два последовательные приближения могу быть выражены как
+
+
 ai = A + B × 2n × hn
 and
 ai+1 = A + B × hn
 
 Now the error term can be eliminated. We conclude
 
+Теперь error term может быть устранен. Мы приходим к выводу, что
+
+
 A= (an+1 × 2n − an) / 2n − 1
 
 Of course, since the error term is only roughly a power of h this conclusion is
 also approximate, but it is a much better approximation. This improvement
 can be applied to all successive pairs of approximations using the function
+
+Конечно, так как error term является лишь примерно степенью h этот вывод
+также приблизителен, но это намного лучшее приближение. Это усовершенствование
+может быть применено ко всем последовательным парам приближений с помощью функции
+
 
 elimerror n (Cons a (Cons b rest))
 = Cons ((b ∗ (2^n) − a)/(2^n − 1)) (elimerror n (Cons b rest))
@@ -322,6 +376,14 @@ right value of n. This is difficult to predict in general but is easy to measure
 It’s not difficult to show that the following function estimates it correctly, but
 we won’t include the proof here:
 
+Устранение error term из последовательности приближений дает другую последовательность,
+сходящуюся намного быстрее.
+Одна из проблем остается прежде чем мы сможем использовать elimerror - мы должны знать
+правильное значение n. Его трудно предсказать в общем случае, но легко измерить.
+Не трудно показать, что следующая функция подсчитывает его правильно, но
+мы не будем приводить здесь доказательство:
+
+
 order (Cons a (Cons b (Cons c rest)))
 = round (log2 ((a − c)/(b − c) − 1))
 round x = x rounded to the nearest integer
@@ -329,10 +391,17 @@ log2 x = the logarithm of x to the base 2
 
 Now a general function to improve a sequence of approximations can be defined:
 
+Теперь основная функция для улучшения последовательности приближений может быть определена:
+
+
 improve s = elimerror (order s) s
 
 The derivative of a function f can be computed more efficiently using improve,
 as follows:
+
+Используя улучшения производную функции f можно вычислить более эффективно
+следующим образом:
+
 
 within eps (improve (differentiate h0 f x))
 
@@ -342,10 +411,22 @@ This means that a sequence of approximations can be improved more than once.
 A different error term is eliminated each time, and the resulting sequences converge faster and faster. Hence one could compute a derivative very efficiently
 using
 
+Функция improve применяется только для нахождения последовательностей приближений, которые вычисляются с использованием параметра h, уменьшающимся вдвое для каждого последующего приближения.
+Тем не менее, если он применяется к такой последовательности ее результатом является
+такая же последовательность!
+Это означает, что последовательность приближений может быть улучшена более чем один раз.
+Разница error term уменьшается каждый раз, и полученные последовательности сходятся все быстрее и быстрее. Поэтому можно было бы очень эффективно вычислить производную
+с помощью
+
+
 within eps (improve (improve (improve (differentiate h0 f x))))
 
 In numerical analysts’ terms, this is likely to be a fourth-order method, and it
 gives an accurate result very quickly. One could even define
+
+С точки зрения численного анализа это, вероятно, будет методом четвертого порядка, и
+дает точный результат очень быстро. Можно даже определить
+
 
 super s = map second (repeat improve s)
 second (Cons a (Cons b rest)) = b
@@ -357,11 +438,24 @@ is really very sophisticated — it uses a better and better numerical method as
 more and more approximations are computed. One could compute derivatives
 very efficiently indeed with the program:
 
+что использует repeat improve для нахождения последовательности все более улучшенных последовательностей приближений и строит новую последовательность приближений,
+взяв второе приближение от каждой из улучшенных последовательностей (оказалось,
+что второе из них является лучшим вариантом - оно является более точным чем первое и не требует каких-либо дополнительных действий для вычисления). Этот алгоритм
+на самом деле очень сложный - он использует все лучший и лучший численный метод по мере того
+как все больше и больше приближений вычисляются. Действительно, можно было бы вычислить производные
+очень эффективно с помощью программы:
+
+
 within eps (super (differentiate h0 f x))
 
 This is probably a case of using a sledgehammer to crack a nut, but the point
 is that even an algorithm as sophisticated as super is easily expressed when
 modularized using lazy evaluation.
+
+Возможно, это случай использования кувалды для колки ореха, но суть в том,
+что даже алгоритм, сложный как super, может быть легко выражен при разделении на модули
+с использованием ленивых вычислений.
+
 
 ## 4.3 Numerical Integration
 
